@@ -10,7 +10,7 @@ jobs:
 
     - name: Pull Snyk image
       run: |
-        docker pull snyk/snyk
+        docker pull snyk/snyk:python
 
     - name: Run Snyk test
       run: |

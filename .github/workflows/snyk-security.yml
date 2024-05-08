@@ -1,0 +1,20 @@
+name: Snyk Code Scan with Docker
+
+on:
+  push
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Pull Snyk image
+      run: |
+        docker pull snyk/snyk
+
+    - name: Run Snyk test
+      run: |
+        docker run --rm \
+          -v $(pwd):/app \
+          -e SNYK_TOKEN=${{ secrets.SNYK_TOKEN }} \
+          snyk/snyk test

@@ -1,20 +1,13 @@
-name: Snyk Code Scan with Docker
-
-on:
-  push
+name: Example workflow for Python using Snyk
+on: push
 jobs:
-  scan:
+  security:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Pull Snyk image
-      run: |
-        docker pull snyk/snyk:python
-
-    - name: Run Snyk test
-      run: |
-        docker run --rm \
-          -v $(pwd):/app \
-          -e SNYK_TOKEN=${{ secrets.SNYK_TOKEN }} \
-          snyk/snyk:python test -d
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
